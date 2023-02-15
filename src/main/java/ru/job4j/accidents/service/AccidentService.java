@@ -18,7 +18,7 @@ public class AccidentService {
     }
 
     public List<Accident> getAll() {
-        return (List<Accident>) repository.findAll();
+        return repository.findAll();
     }
 
 }
