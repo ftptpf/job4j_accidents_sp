@@ -1,6 +1,5 @@
 package ru.job4j.accidents.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,9 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     /**
      * Для аутентификации загружаем пользователей из памяти.
      * У каждого пользователя есть роль. По роли мы определяем, что пользователь может делать.
@@ -25,11 +21,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        PasswordEncoder passwordEncoder = passwordEncoder();
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder)
-                .withUser("user").password(passwordEncoder.encode("123456")).roles("USER")
+                .withUser("user")
+                .password(passwordEncoder.encode("123456"))
+                .roles("USER")
                 .and()
-                .withUser("admin").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+                .withUser("admin")
+                .password(passwordEncoder.encode("123456"))
+                .roles("USER", "ADMIN");
     }
 
     @Bean
