@@ -29,19 +29,16 @@
                 Регистрация
             </div>
             <div class="card-body">
-                <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
-                    <span th:text="${errorMessage}"></span>
-                </div>
-                <form th:action="@{/login}" method="post">
+                <form th:action="@{/reg}" method="post">
                     <div class="form-group">
                         <label>Логин</label>
-                        <input type="text" class="form-control" name="login">
+                        <input type="text" class="form-control" name="username">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
                         <input type="text" class="form-control" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" class="btn btn-primary">Зарегистрировать</button>
                 </form>
             </div>
         </div>

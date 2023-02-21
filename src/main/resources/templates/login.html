@@ -35,7 +35,7 @@
                 <form th:action="@{/login}" method="post">
                     <div class="form-group">
                         <label>Логин</label>
-                        <input type="text" class="form-control" name="login">
+                        <input type="text" class="form-control" name="username">
                     </div>
                     <div class="form-group">
                         <label>Пароль</label>
@@ -43,6 +43,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Войти</button>
                 </form>
+                <a href="/reg">Регистрация</a>
             </div>
         </div>
     </div>
