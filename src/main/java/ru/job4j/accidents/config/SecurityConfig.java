@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("""
                         SELECT u.username, a.authority
                         FROM authorities a, users u
-                        WHERE u.username = ? AND a.authority_id = a.id
+                        WHERE u.username = ? AND u.authority_id = a.id
                         """);
     }
 

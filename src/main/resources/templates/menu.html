@@ -16,8 +16,9 @@
                 <a class="nav-item nav-link" href="#">Приняты</a>
                 <a class="nav-item nav-link" href="#">Отклонены</a>
                 <a class="nav-item nav-link" href="#">Завершены</a>
-                <a class="nav-item nav-link" href="#">
-                    <span th:text="${user}"></span>
+                <a class="nav-item nav-link" th:if="${user}" th:href="@{/logout}">
+                    <span th:text="${user.username}"></span>
+                    <span> | Выйти</span>
                 </a>
             </div>
         </div>

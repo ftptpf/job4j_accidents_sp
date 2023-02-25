@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.AuthorityRepository;
 import ru.job4j.accidents.repository.UserRepository;
-
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -23,16 +22,16 @@ public class RegController {
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user, Model model) {
-        Optional<User> userFromDB = users.findUserByUsername(user.getUsername());
-        if (userFromDB.isPresent()) {
+        user.setEnabled(true);
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setAuthority(authorities.findByAuthority("ROLE_USER"));
+        try {
+            users.save(user);
+        } catch (DataIntegrityViolationException e) {
             String errorMessage = "User with such name is already exist in the database. Try to use other login.";
             model.addAttribute("errorMessage", errorMessage);
             return "reg";
         }
-        user.setEnabled(true);
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorities.findByAuthority("ROLE_USER"));
-        users.save(user);
         return "redirect:/login";
     }
 
