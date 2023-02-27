@@ -16,6 +16,7 @@ import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.UserRepository;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,9 +50,13 @@ class RegControllerTest {
                 .param("password", "111"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("login"));
+                .andExpect(view().name("redirect:/login"));
+
         ArgumentCaptor<User> argumentCaptor = ArgumentCaptor.forClass(User.class);
-        asssertThat(argumentCaptor.getValue().getUsername(), is("Vika"));
+        verify(userRepository).save(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().getUsername()).isEqualTo("Vika");
+
+        userRepository.deleteAll();
 
     }
 }
